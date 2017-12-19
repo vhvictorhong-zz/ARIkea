@@ -38,12 +38,17 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         // Dispose of any resources that can be recreated.
     }
     
+    //MARK: Gesture Recognizer
+    
     func registerGestureRecognizers() {
         
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapped))
         let pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(pinch))
+        let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(rotate))
+        longPressGestureRecognizer.minimumPressDuration = 0.1
         self.sceneView.addGestureRecognizer(tapGestureRecognizer)
         self.sceneView.addGestureRecognizer(pinchGestureRecognizer)
+        self.sceneView.addGestureRecognizer(longPressGestureRecognizer)
         
     }
 
@@ -64,12 +69,30 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let pinchLocation = sender.location(in: sceneView)
         let hitTest = sceneView.hitTest(pinchLocation)
         if !hitTest.isEmpty {
-            let results = hitTest.first!
-            let node = results.node
+            let result = hitTest.first!
+            let node = result.node
             let pinchAction = SCNAction.scale(by: sender.scale, duration: 0)
             node.runAction(pinchAction)
             sender.scale = 1.0
         }
+    }
+    
+    @objc func rotate(sender: UILongPressGestureRecognizer) {
+        
+        let sceneView = sender.view as! ARSCNView
+        let holdLocation = sender.location(in: sceneView)
+        let hitTest = sceneView.hitTest(holdLocation)
+        if !hitTest.isEmpty {
+            let result = hitTest.first!
+            if sender.state == .began {
+                let rotateAction = SCNAction.rotateBy(x: 0, y: CGFloat(360.degreesToRadians), z: 0, duration: 1)
+                let foreverAction = SCNAction.repeatForever(rotateAction)
+                result.node.runAction(foreverAction)
+            } else if sender.state == .ended {
+                result.node.removeAllActions()
+            }
+        }
+        
     }
     
     func addItem(hitTestResult: ARHitTestResult) {
@@ -135,3 +158,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
 }
 
+extension Int {
+    var degreesToRadians: Double {return Double(self) * .pi/180}
+}
