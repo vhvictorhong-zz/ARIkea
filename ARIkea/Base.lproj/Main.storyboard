@@ -9,6 +9,11 @@
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="AvenirNext.ttc">
+            <string>AvenirNext-Bold</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -60,12 +65,20 @@
                             <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RjB-oT-vPJ">
                                 <rect key="frame" x="0.0" y="20" width="375" height="572"/>
                             </arscnView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Plane Detected" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zea-fj-0c3">
+                                <rect key="frame" x="125" y="20" width="126.5" height="23.5"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="Zea-fj-0c3" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="2r8-Bx-eUr"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="dlF-gx-OjV" secondAttribute="trailing" id="G2o-ca-59E"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="RjB-oT-vPJ" secondAttribute="trailing" id="GDA-hC-9yR"/>
                             <constraint firstItem="dlF-gx-OjV" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Tbb-CI-lIL"/>
+                            <constraint firstItem="Zea-fj-0c3" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="XLG-3d-FnE"/>
                             <constraint firstItem="dlF-gx-OjV" firstAttribute="top" secondItem="RjB-oT-vPJ" secondAttribute="bottom" id="kJP-iP-pz4"/>
                             <constraint firstItem="RjB-oT-vPJ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="svk-5l-ns0"/>
                             <constraint firstItem="RjB-oT-vPJ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="w0N-RN-ft6"/>
@@ -75,6 +88,7 @@
                     </view>
                     <connections>
                         <outlet property="itemsCollectionView" destination="dlF-gx-OjV" id="N3H-Xc-wvf"/>
+                        <outlet property="planeDetectedLabel" destination="Zea-fj-0c3" id="ErA-Mo-Su3"/>
                         <outlet property="sceneView" destination="RjB-oT-vPJ" id="X4n-8R-crz"/>
                     </connections>
                 </viewController>

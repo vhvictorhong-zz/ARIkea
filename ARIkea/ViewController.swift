@@ -9,10 +9,11 @@
 import UIKit
 import ARKit
 
-class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, ARSCNViewDelegate {
 
     @IBOutlet weak var itemsCollectionView: UICollectionView!
     @IBOutlet weak var sceneView: ARSCNView!
+    @IBOutlet weak var planeDetectedLabel: UILabel!
     
     let configuration = ARWorldTrackingConfiguration()
     let itemsArray: [String] = ["cup", "vase", "boxing", "table"]
@@ -27,6 +28,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         self.sceneView.session.run(configuration)
         self.itemsCollectionView.dataSource = self
         self.itemsCollectionView.delegate = self
+        self.sceneView.delegate = self
         self.registerGestureRecognizers()
         
     }
@@ -117,5 +119,19 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
     }
     
+    //MARK: ARSCN View Delegate
+    
+    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
+        
+        guard anchor is ARPlaneAnchor else {return}
+        
+        DispatchQueue.main.async {
+            self.planeDetectedLabel.isHidden = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                self.planeDetectedLabel.isHidden = true
+            }
+        }
+        
+    }
 }
 
