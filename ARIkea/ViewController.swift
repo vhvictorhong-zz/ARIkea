@@ -30,6 +30,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         self.itemsCollectionView.delegate = self
         self.sceneView.delegate = self
         self.registerGestureRecognizers()
+        self.sceneView.autoenablesDefaultLighting = true
         
     }
 
@@ -95,6 +96,17 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
     }
     
+    func centerPivot(for node: SCNNode) {
+        
+        let min = node.boundingBox.min
+        let max = node.boundingBox.max
+        node.pivot = SCNMatrix4MakeTranslation(
+            min.x + (max.x - min.x)/2,
+            min.y + (max.y - min.y)/2,
+            min.z + (max.z - max.z)/2
+        )
+    }
+    
     func addItem(hitTestResult: ARHitTestResult) {
         
         if let selectedItem = self.selectedItem {
@@ -103,6 +115,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             let transform = hitTestResult.worldTransform
             let thirdColumn = transform.columns.3
             node.position = SCNVector3(thirdColumn.x, thirdColumn.y, thirdColumn.z)
+            if selectedItem == "table" {
+                self.centerPivot(for: node)
+            }
             self.sceneView.scene.rootNode.addChildNode(node)
         }
         
