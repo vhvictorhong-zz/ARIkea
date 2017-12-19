@@ -61,11 +61,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let sceneView = sender.view as! ARSCNView
         let pinchLocation = sender.location(in: sceneView)
         let hitTest = sceneView.hitTest(pinchLocation)
-        if hitTest.isEmpty {
+        if !hitTest.isEmpty {
             let results = hitTest.first!
             let node = results.node
             let pinchAction = SCNAction.scale(by: sender.scale, duration: 0)
             node.runAction(pinchAction)
+            sender.scale = 1.0
         }
     }
     
